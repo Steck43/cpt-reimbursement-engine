@@ -35,7 +35,7 @@ export function RevenueProtectionReveal({
       <header className="reveal-header">
         <div>
           <p className="panel-kicker">{kicker}</p>
-          <h2>The computed investor stakes</h2>
+          <h2>Computed revenue exposure</h2>
         </div>
         <HonestyMarkerBadge marker={honestyMarker} />
       </header>

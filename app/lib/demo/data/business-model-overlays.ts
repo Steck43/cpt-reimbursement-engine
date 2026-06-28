@@ -54,7 +54,7 @@ export const BUSINESS_MODEL_OVERLAYS = [
     retentionMechanism:
       "Coverage surveillance anchors retention through policy transparency.",
     revenueProtectionFrame:
-      "Case-level deltas roll up to investor-visible protection in burn-service lines.",
+      "Case-level deltas roll up to total revenue protection across burn-service lines.",
   },
   {
     scenarioId: "cochlear-69930",

@@ -5,14 +5,14 @@
 The project uses one pure TypeScript computation engine and exposes it through:
 
 - API surface (`app/api/*`) for programmatic and route-level verification.
-- UI surface (`app/components/demo/*`) for investor walkthrough and narrative framing.
+- UI surface (`app/components/demo/*`) is a clickable demo of the engine.
 
 Both surfaces consume the same engine outputs and response envelopes. No separate logic
 is allowed in the UI that would diverge from engine behavior.
 
 ## Single Deployable, Modular Services
 
-For demo delivery speed, Bursa.ai ships as one deployed Next.js application with five
+The repository is a single Next.js application with five
 internal service modules:
 
 - ingestion-service
