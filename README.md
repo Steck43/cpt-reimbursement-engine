@@ -51,7 +51,7 @@ The demo walks five ways reimbursement breaks, each anchored to a real code and 
 | **No-precedent** | No coding pathway exists at all | Implantable neural-interface archetype |
 | **Coverage boundary** | Device-intensive, on the edge of coverage | Cochlear implant, CPT 69930 |
 
-Each prediction is checked against stored CMS values, so the engine isn't just asserting an outcome — it's validating its own answer against ground truth.
+Each prediction is checked against stored CMS values, so the engine isn't just asserting an outcome, it's validating its own answer against ground truth.
 
 ## Real vs. stubbed
 
@@ -77,7 +77,7 @@ Tests run under Vitest against the pure-TypeScript engine: **49 tests across 9 f
 
 ## Scope and limitations
 
-This is a demonstration engine over a curated CY2025 OPPS dataset, built to prove the reasoning and the architecture — not a production reimbursement system. Stating the boundary precisely is part of the design:
+This is a demonstration engine over a curated CY2025 OPPS dataset, built to prove the reasoning and the architecture, not a production reimbursement system. Stating the boundary precisely is part of the design:
 
 - **Curated dataset, not live data.** The code dataset is hand-sourced to CY2025 OPPS addenda with per-code provenance. Production would require the licensed AMA data provider (stubbed here behind a stable interface) and a live CMS policy feed (seeded/simulated here).
 - **Five anchored failure modes, not exhaustive coverage.** The five scenarios are real, validated against CMS actuals, and chosen to cover distinct failure classes. They demonstrate the pattern; they are not the full space of reimbursement outcomes.
