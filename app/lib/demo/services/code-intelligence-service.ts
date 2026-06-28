@@ -74,6 +74,9 @@ export function createCodeIntelligenceService(
             score: deriveCandidateScore(contributors),
           };
         })
+        // Drop noise-level candidates before ranking. Anything at or below CONFIDENCE_FLOOR is
+        // not a real match and would only pollute the ordered set. Survivors sort by computed
+        // score, and the top survivor becomes the selected code.
         .filter((candidate) => candidate.score > CONFIDENCE_FLOOR)
         .sort((left, right) => right.score - left.score);
 

@@ -35,6 +35,13 @@ export type DemoScenario = {
 };
 
 export const DEMO_SCENARIOS = [
+  // Status-indicator failure: a code can exist, be FDA-cleared, and still pay $0.
+  // Anchored to 0937T (extended external ECG recording, 15 to 30 days), genuinely status
+  // E1, not payable under OPPS, per 2025 Addendum B. Deliberately not 0764T/0765T, the
+  // AI-ECG service codes. Those were E1, but CMS finalized them to status S (payable, APC
+  // 5734) for CY2025 after manufacturer advocacy, so they no longer demonstrate
+  // exists-but-pays-zero. The duration-based recording code is the honest current E1
+  // exemplar. The descriptor is about duration, not AI, and is described that way.
   {
     id: "ai-ecg",
     title: "AI-ECG",
@@ -95,6 +102,11 @@ export const DEMO_SCENARIOS = [
       apc: "5166",
     },
   },
+  // No-precedent: knownCmsOutcome is null on purpose. As of this dataset there is no
+  // Category I or III CPT and no APC for an implantable motor-decoding neural interface,
+  // a confirmed true absence rather than a missing lookup. This is the anchor that
+  // exercises abstain-over-guess. The nearest candidate is cochlear (69930), which the
+  // engine must reject rather than report. Device category only, no named company.
   {
     id: "bci-archetype",
     title: "BCI Archetype",

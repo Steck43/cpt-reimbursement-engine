@@ -222,6 +222,11 @@ function resolveMismatchWeight(paymentResult: MonitoringPaymentSnapshot): number
   return roundToThree(statusWeight + apcWeight);
 }
 
+// Normalized rule-event impact in [0,1]. Each impacted event contributes 0.22, added to
+// mismatchWeight, then clamped to 1.0. The 0.22 per-event weight is calibrated so a
+// small cluster of impacted events (roughly four to five) saturates the impact without
+// any single event dominating, while a mismatch can carry weight on its own. No signal
+// returns 0 rather than a floored non-zero, so a quiet period reads as quiet.
 function computeRuleEventImpactDelta(
   impactedEventCount: number,
   mismatchWeight: number

@@ -207,6 +207,15 @@ function resolvePrediction(
   return FALLBACK_PREDICTION;
 }
 
+// Coverage score: how directly the payment prediction is grounded in a known rule.
+// Three ordinal tiers, not a continuous measure.
+//   1.0  selected (top) code maps to a payment rule. Prediction rests on a direct hit.
+//   0.6  selected code has no rule but a lower-ranked candidate does. Prediction is
+//        supported by a fallback, so confidence drops.
+//   0.2  no candidate maps to any rule. Prediction is weakly grounded, floored here so
+//        it can never present as well-supported.
+// The magnitudes are deliberate steps (full, fallback, floor), spaced so a fallback hit
+// and a no-rule case stay clearly separated downstream.
 function resolveRuleCoverageScore(
   input: PaymentModelInput,
   paymentRules: ScenarioPaymentRuleMap

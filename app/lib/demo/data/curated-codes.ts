@@ -55,6 +55,11 @@ export const CURATED_CODE_DATA = [
     provenance:
       "2025 OPPS Addendum A: finalized APC 1567, $6,250.50. Proposed-rule assignment (APC 5051, about $199) pending proposed-rule confirmation.",
   },
+  // Pass-through cliff spans two distinct codes that behave differently in the rule.
+  //   15013 (above) is the PROCEDURE code: status T, APC 1567, $6,250.50 finalized.
+  //   C1832 (here) is the DEVICE code: was pass-through (status G), expired Dec 31 2024,
+  //   now status N (packaged, no separate payment) in 2025.
+  // The cliff is the device losing pass-through, not the procedure code changing.
   {
     code: "C1832",
     descriptor: "Autologous cell processing system device",
