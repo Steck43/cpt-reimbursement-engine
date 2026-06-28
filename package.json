@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "vitest run"
+    "test": "vitest run",
+    "demo": "tsx scripts/demo.ts"
   },
   "dependencies": {
     "lucide-react": "^1.14.0",
@@ -21,6 +22,7 @@
     "@types/react-dom": "latest",
     "eslint": "latest",
     "eslint-config-next": "latest",
+    "tsx": "^4.22.4",
     "typescript": "latest",
     "vitest": "latest"
   }

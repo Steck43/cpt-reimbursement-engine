@@ -25,6 +25,7 @@ That last one is the whole philosophy: in a domain where a wrong payment predict
 ## Architecture
 
 **One engine, two surfaces.** A dependency-free TypeScript core (`app/lib/demo/`) performs all computation. Both an API surface (`app/api/`) and a clickable demo UI (`app/components/demo/`) consume the same engine outputs — no logic lives in the UI that could diverge from engine behavior. The engine is the single source of truth; the surfaces only render it.
+For the full design rationale, see [ARCHITECTURE.md](./ARCHITECTURE.md).
 
 The core is five service modules over one pipeline:
 input
@@ -76,6 +77,17 @@ npm test         # engine + pipeline + route tests
 ```
 
 Tests run under Vitest against the pure-TypeScript engine: **49 tests across 9 files**. The suite validates each scenario's prediction against stored CMS actuals and confirms confidence is computed and varies with input — i.e. it checks that the engine is reasoning, not returning canned answers.
+
+## Scope and limitations
+
+This is a demonstration engine over a curated CY2025 OPPS dataset, built to prove the reasoning and the architecture — not a production reimbursement system. Stating the boundary precisely is part of the design:
+
+- **Curated dataset, not live data.** The code dataset is hand-sourced to CY2025 OPPS addenda with per-code provenance. Production would require the licensed AMA data provider (stubbed here behind a stable interface) and a live CMS policy feed (seeded/simulated here).
+- **Five anchored failure modes, not exhaustive coverage.** The five scenarios are real, validated against CMS actuals, and chosen to cover distinct failure classes. They demonstrate the pattern; they are not the full space of reimbursement outcomes.
+- **Confidence is calibrated, not learned.** The scoring weights and thresholds are deterministic and hand-tuned against the curated set, by design — the engine's value here is auditable, explainable reasoning, not a trained model. A production version could layer a learned ranker behind the same provider seam without changing the contract.
+- **Economic figures are modeling assumptions.** Procedure-volume and revenue-exposure numbers are labeled assumptions, not sourced estimates.
+
+What I'd build next: the licensed AMA provider behind the existing seam, a live policy feed replacing the seeded events, and an expanded validated dataset to widen scenario coverage.
 
 ## Context & attribution
 
