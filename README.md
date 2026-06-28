@@ -28,22 +28,14 @@ That last one is the whole philosophy: in a domain where a wrong payment predict
 For the full design rationale, see [ARCHITECTURE.md](./ARCHITECTURE.md).
 
 The core is five service modules over one pipeline:
-input
-  │
-  ▼
-ingestion          normalize the procedure/device payload
-  │
-  ▼
-code-intelligence  rank candidate CPT/HCPCS codes, derive confidence
-  │
-  ▼
-payment-model      predict status indicator + APC, validate vs. CMS actuals
-  │
-  ▼
-monitoring         compute policy-event impact and revenue exposure
-  │
-  ▼
-explainability     assemble provenance + honesty markers
+```mermaid
+flowchart TD
+    I[input] --> A[ingestion<br/>normalize the procedure/device payload]
+    A --> B[code-intelligence<br/>rank candidate CPT/HCPCS codes, derive confidence]
+    B --> C[payment-model<br/>predict status indicator + APC, validate vs. CMS actuals]
+    C --> D[monitoring<br/>compute policy-event impact and revenue exposure]
+    D --> E[explainability<br/>assemble provenance + honesty markers]
+```
 
 A provider seam (`CodeDataProvider`, `PolicyFeedProvider`) abstracts data access behind interfaces, so a license-backed data source can be swapped in without touching engine logic.
 
