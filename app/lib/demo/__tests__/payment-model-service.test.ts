@@ -253,6 +253,34 @@ describe("payment model service", () => {
     ]);
   });
 
+  it("keeps predict provenance non-empty and sourced", async () => {
+    const paymentService = createPaymentModelService();
+    const scenario = getScenarioById("ai-ecg");
+
+    const envelope = await paymentService.predict({
+      scenario,
+      selectedCode: "0937T",
+      rankedCandidates: [{ code: "0937T", score: 0.83 }],
+    });
+
+    expect(envelope.provenance.length).toBeGreaterThan(0);
+    for (const entry of envelope.provenance) {
+      expect(entry.source.trim().length).toBeGreaterThan(0);
+      expect(entry.citation.trim().length).toBeGreaterThan(0);
+      expect(entry.observedAt.trim().length).toBeGreaterThan(0);
+      expect(entry.source).not.toMatch(/junk|asdf|placeholder/i);
+      expect(entry.citation).not.toMatch(/junk|asdf|placeholder/i);
+    }
+    expect(
+      envelope.provenance.some((entry) => entry.source === "payment-model-service")
+    ).toBe(true);
+    expect(
+      envelope.provenance.some((entry) =>
+        entry.citation.includes("scenario:ai-ecg") && entry.citation.includes("selected:0937T")
+      )
+    ).toBe(true);
+  });
+
   it("throws PaymentModelInputError when selected code is missing", async () => {
     const paymentService = createPaymentModelService();
     const scenario = getScenarioById("recell");
