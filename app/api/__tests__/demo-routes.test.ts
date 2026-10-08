@@ -11,11 +11,35 @@ type RouteEnvelope = {
   readonly confidence: {
     readonly derivation: string;
   };
-  readonly provenance: readonly unknown[];
+  readonly provenance: readonly {
+    readonly source: string;
+    readonly citation: string;
+    readonly observedAt: string;
+  }[];
   readonly honestyMarkers: readonly {
     readonly field: string;
   }[];
 };
+
+function expectSourcedProvenance(
+  provenance: RouteEnvelope["provenance"],
+  requiredSources: readonly string[]
+): void {
+  expect(provenance.length).toBeGreaterThan(0);
+  for (const entry of provenance) {
+    expect(typeof entry.source).toBe("string");
+    expect(typeof entry.citation).toBe("string");
+    expect(typeof entry.observedAt).toBe("string");
+    expect(entry.source.trim().length).toBeGreaterThan(0);
+    expect(entry.citation.trim().length).toBeGreaterThan(0);
+    expect(entry.observedAt.trim().length).toBeGreaterThan(0);
+    expect(entry.source).not.toMatch(/junk|asdf|placeholder/i);
+    expect(entry.citation).not.toMatch(/junk|asdf|placeholder/i);
+  }
+  for (const source of requiredSources) {
+    expect(provenance.some((entry) => entry.source === source)).toBe(true);
+  }
+}
 
 async function parseJson(response: Response): Promise<unknown> {
   return response.json();
@@ -44,6 +68,17 @@ describe("demo API routes", () => {
     expect(payload.confidence.derivation).toBe("computed");
     expect(payload.honestyMarkers.length).toBeGreaterThan(0);
     expect(payload.result.warnings).toEqual([]);
+    expectSourcedProvenance(payload.provenance, ["ingestion-service", "providers"]);
+  });
+
+  it("keeps scenario envelope provenance non-empty and sourced", async () => {
+    const response = await getScenarioRoute(
+      new Request("http://localhost/api/scenarios/ai-ecg"),
+      { params: { id: "ai-ecg" } }
+    );
+    const payload = expectRouteEnvelope(await parseJson(response));
+
+    expectSourcedProvenance(payload.provenance, ["ingestion-service", "providers"]);
   });
 
   it("returns contract-compliant analyze envelope", async () => {
