@@ -1,5 +1,7 @@
 # CPT Reimbursement Engine
 
+[![floor](https://github.com/Steck43/cpt-reimbursement-engine/actions/workflows/floor.yml/badge.svg)](https://github.com/Steck43/cpt-reimbursement-engine/actions/workflows/floor.yml)
+
 **A device can clear the FDA, hold a valid CPT code, and still earn $0.** Whether it gets paid at all comes down to a Medicare OPPS status indicator. It is a detail that lives downstream of the code, invisible to most tooling that stops at "is there a code for this?" This engine doesn't stop there. It maps a procedure or device to its codes, predicts the *payment outcome*, and surfaces the failure modes that turn a covered code into no revenue.
 
 The gap between **coded** and **paid** is the problem this closes.
